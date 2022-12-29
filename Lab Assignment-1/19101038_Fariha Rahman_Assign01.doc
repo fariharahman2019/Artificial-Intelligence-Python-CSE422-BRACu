@@ -1,0 +1,158 @@
+LEVEL 1:
+
+def pathway(ad,p,d):
+  key=0
+
+  for v in ad[d]:
+   if v not in p:
+     p[v]=ad[v]
+   else:
+      p[v].append(ad[v])
+
+  for k,v in p.items():
+   if 6 in v:
+      key=k
+      break
+   return key
+
+position = int(input())
+connection=int(input())
+adjacent={}
+for i in range(connection):
+  f=[int(e) for e in input().split()]
+  if f[0] in adjacent.keys():
+    adjacent[f[0]].append(f[1])
+  else:
+    adjacent[f[0]]=[f[1]]
+
+nora=int (input())
+path={}
+count=1
+
+while True:
+  index=pathway(adjacent,path,0)
+  if index!=0:
+    count+=1
+    break
+  else:
+    index=pathway(adjacent,path,0)
+print(count)
+
+
+
+
+
+
+
+LEVEL 2:
+
+file = open("level2.txt", "rt")
+txt_input=file.read().split("\n")
+
+destination=txt_input[-3]
+edge=txt_input[2:-3]
+node=txt_input[0]
+f=txt_input[-2]
+s=txt_input[-1]
+
+des = {}
+dict = {}
+
+for i in range(int(node)):
+  dict[str(i)]=[] 
+  des[str(i)]=-1 
+
+for i in edge:
+  if(dict.get(i[2]) is not None):
+    dict.get(i[2]).append(i[0])
+  else:
+    dict[i[2]] = [i[0]]
+
+
+def bfs(graph, start):
+  queue=[start]
+  visited=[start]
+  des[start]=0
+
+  while queue:
+    node = queue.pop(0)
+
+  for i in graph[node]:
+    if i not in visited:
+      des[i]=d[node]+1
+
+    visited.append(i)
+    queue.append(i)
+
+if(des[f]<des[s]):
+  print("Lara")
+else:
+  print("Nora")
+
+
+
+
+
+LEVEL 3:
+
+import numpy as np
+
+file = open('input-level 3.txt', 'r')
+s = []
+l1 = file.readline()
+l2 = file.readline()
+distance = []
+
+varc = int(l1) + 1
+e = int(l2)
+
+matrix = np.zeros((varc, varc), dtype='int')
+
+for i in range(e):
+    line = file.readline()
+    ver = line.split()
+    u = int(ver[0])
+    v = int(ver[1])
+    matrix[u][v] = 1
+    matrix[v][u] = 1
+
+lina = int(file.readline())
+participants = int(file.readline())
+
+for i in range(participants):
+    s.append(int(file.readline()))
+
+color = np.empty(varc, dtype='object')
+color[:] = 'WHITE'
+parent = np.empty(varc, dtype='object')
+parent[:] = np.NaN
+d = np.zeros(varc, dtype='int')
+
+from queue import Queue
+
+q = Queue(maxsize=varc)
+
+def bfs(g, s):
+    color[s] = 'Grey'
+    parent[s] = np.nan
+    d[s] = 0
+    q.put(s)
+    while not q.empty():
+        u = q.get()
+        for v in range(1, varc):
+            if matrix[u][v] == 1:
+                if color[v] == 'WHITE':
+                    color[v] = 'Grey'
+                    d[v] = d[u] + 1
+                    parent[v] = u
+                    q.put(v)
+        color[u] = 'BLACK'
+    return d
+    distance = bfs(matrix, 1)
+
+for i in range(participants):
+    distance.append(bfs(matrix, s[i])[lina])
+    color[:] = 'WHITE'
+    parent[:] = np.NaN
+
+print(min(distance))

@@ -1,0 +1,316 @@
+LEVEL 1:
+
+
+import numpy as np
+
+file = open('input-level 1.txt', 'r')
+
+line1 = file.readline()
+# print(line1)
+line2 = file.readline()
+# print(line2)
+
+var_count = int(line1) + 1
+# print(var_count)
+
+edge_count = int(line2)
+# print(edge_count)
+
+adjacent_matrix = np.zeros((var_count, var_count), dtype='int')
+print(adjacent_matrix)
+
+for i in range(edge_count):
+    line = file.readline()
+    # print(line)
+    vertices = line.split()
+    # print(vertices)
+    u = int(vertices[0])
+    # print(u)
+    v = int(vertices[1])
+    # print(v)
+    adjacent_matrix[u][v] = 1
+    adjacent_matrix[v][u] = 1
+
+print(adjacent_matrix)
+
+lina = int(file.readline())
+# print(line)
+color = np.empty(var_count, dtype='object')
+
+color[:] = 'WHITE'
+# print(color)
+
+parent = np.empty(var_count, dtype='object')
+parent[:] = np.NaN
+# print(parent)
+
+d = np.zeros(var_count, dtype='int')
+# print(d)
+
+from queue import Queue
+
+new_queue = Queue(maxsize=var_count)
+
+
+def bfs(g, s):
+    color[s] = 'Red'
+    # print(color)
+    parent[s] = np.nan
+    # print(parent)
+    d[s] = 0
+    # print(d[s])
+    new_queue.put(s)
+    # print(list(new_queue.queue))
+    while not new_queue.empty():
+        u = new_queue.get()
+        # print(" value of u :")
+        # print(u)
+        for v in range(1, var_count):
+            # print(" value of v in loop :")
+            # print(v)
+            if adjacent_matrix[u][v] == 1:
+                if color[v] == 'WHITE':
+                    color[v] = 'Red'
+                    d[v] = d[u] + 1
+                    parent[v] = u
+                    # print(" value of parent :")
+                    # print(parent)
+                    new_queue.put(v)
+                    # print(" value of queue :")
+                    # print(list(new_queue.queue))
+        color[u] = 'BLACK'
+
+
+    return d
+
+
+distance = bfs(adjacent_matrix, 1)
+print(distance[lina])
+
+
+
+
+
+LEVEL 2:
+
+import numpy as np
+
+file = open('input-level 2.txt', 'r')
+
+line1 = file.readline()
+# print(line1)
+line2 = file.readline()
+# print(line2)
+
+var_count = int(line1) + 1
+# print(var_count)
+
+edge_count = int(line2)
+# print(edge_count)
+
+adjacent_matrix = np.zeros((var_count, var_count), dtype='int')
+# print(adjacent_matrix)
+
+for i in range(edge_count):
+    line = file.readline()
+    # print(line)
+    vertices = line.split()
+    # print(vertices)
+    u = int(vertices[0])
+    # print(u)
+    v = int(vertices[1])
+    # print(v)
+    adjacent_matrix[u][v] = 1
+    adjacent_matrix[v][u] = 1
+
+# print(adjacent_matrix)
+
+lina = int(file.readline())
+# print("lina position")
+# print(lina)
+nora = int(file.readline())
+# print("nora position")
+# print(nora)
+lara = int(file.readline())
+# print("lara position")
+# print(lara)
+
+color = np.empty(var_count, dtype='object')
+color[:] = 'WHITE'
+parent = np.empty(var_count, dtype='object')
+parent[:] = np.NaN
+d = np.zeros(var_count, dtype='int')
+
+
+from queue import Queue
+
+new_queue = Queue(maxsize=var_count)
+
+
+def bfs(g, s):
+    color[s] = 'Red'
+    # print(color)
+    # print(color)
+    parent[s] = np.nan
+    # print(parent)
+    # print(parent)
+    d[s] = 0
+    # print(d[s])
+    new_queue.put(s)
+    # print(list(new_queue.queue))
+    while not new_queue.empty():
+        u = new_queue.get()
+        # print(" value of u :")
+        # print(u)
+        for v in range(1, var_count):
+            # print(" value of v in loop :")
+            # print(v)
+            if adjacent_matrix[u][v] == 1:
+                if color[v] == 'WHITE':
+                    color[v] = 'Red'
+                    d[v] = d[u] + 1
+                    parent[v] = u
+                    # print(" value of parent :")
+                    # print(parent)
+                    new_queue.put(v)
+                    # print(" value of queue :")
+                    # print(list(new_queue.queue))
+        color[u] = 'BLACK'
+    # print(color)
+    # print(parent)
+    # print((adjacent_matrix))
+    # print("queue")
+    # print(list(new_queue.queue))
+
+    return d
+    distance = bfs(adjacent_matrix, 1)
+
+
+nora_path_distace = bfs(adjacent_matrix, nora)[lina]
+# print("Nora's distance : ")
+# print(nora_path_distace)
+
+color[:] = 'WHITE'
+parent[:] = np.NaN
+
+lara_path_distance = bfs(adjacent_matrix, lara)[lina]
+# print("Lara's distance : ")
+# print(lara_path_distance)
+
+if nora_path_distace < lara_path_distance:
+    print("Nora")
+else:
+    print("Lara")
+
+
+
+LEVEL 3:
+
+
+import numpy as np
+
+file = open('input-level 3.txt', 'r')
+
+line1 = file.readline()
+# print(line1)
+line2 = file.readline()
+# print(line2)
+
+var_count = int(line1) + 1
+# print(var_count)
+
+edge_count = int(line2)
+# print(edge_count)
+
+adjacent_matrix = np.zeros((var_count, var_count), dtype='int')
+# print(adjacent_matrix)
+
+for i in range(edge_count):
+    line = file.readline()
+    # print(line)
+    vertices = line.split()
+    # print(vertices)
+    u = int(vertices[0])
+    # print(u)
+    v = int(vertices[1])
+    # print(v)
+    adjacent_matrix[u][v] = 1
+    adjacent_matrix[v][u] = 1
+
+# print(adjacent_matrix)
+
+lina = int(file.readline())
+print("lina position")
+print(lina)
+
+num_of_participants = int(file.readline())
+print("num_of_participants")
+print(num_of_participants)
+
+k = []
+for i in range(num_of_participants):
+    k.append(int(file.readline()))
+
+
+
+color = np.empty(var_count, dtype='object')
+color[:] = 'WHITE'
+parent = np.empty(var_count, dtype='object')
+parent[:] = np.NaN
+d = np.zeros(var_count, dtype='int')
+
+
+from queue import Queue
+
+new_queue = Queue(maxsize=var_count)
+
+
+def bfs(g, s):
+    color[s] = 'Red'
+    # print(color)
+    # print(color)
+    parent[s] = np.nan
+    # print(parent)
+    # print(parent)
+    d[s] = 0
+    # print(d[s])
+    new_queue.put(s)
+    # print(list(new_queue.queue))
+    while not new_queue.empty():
+        u = new_queue.get()
+        # print(" value of u :")
+        # print(u)
+        for v in range(1, var_count):
+            # print(" value of v in loop :")
+            # print(v)
+            if adjacent_matrix[u][v] == 1:
+                if color[v] == 'WHITE':
+                    color[v] = 'Red'
+                    d[v] = d[u] + 1
+                    parent[v] = u
+                    # print(" value of parent :")
+                    # print(parent)
+                    new_queue.put(v)
+                    # print(" value of queue :")
+                    # print(list(new_queue.queue))
+        color[u] = 'BLACK'
+    # print(color)
+    # print(parent)
+    # print((adjacent_matrix))
+    # print("queue")
+    # print(list(new_queue.queue))
+
+    return d
+    distance = bfs(adjacent_matrix, 1)
+
+
+path_distance = []
+
+for i in range(num_of_participants):
+    # print(i)
+    path_distance.append(bfs(adjacent_matrix, k[i])[lina])
+    color[:] = 'WHITE'
+    parent[:] = np.NaN
+    # print(path_distance)
+
+print(min(path_distance))
